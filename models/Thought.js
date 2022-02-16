@@ -15,7 +15,7 @@ const ReactionSchema = new Schema(
     },
     username: {
       type: String,
-      required: 'You cannot submit anonymous replies!',
+      required: 'You cannot submit anonymous reactions!',
     },
     createdAt: {
       type: Date,
@@ -26,7 +26,8 @@ const ReactionSchema = new Schema(
   {
     toJSON: {
       getters: true
-    }
+    },
+    id: false
   }
 );
 

@@ -3,7 +3,7 @@ const { User } = require('../models');
 
 const userController = {
   // get all users
-  getAllUser(req, res) {
+  getAllUsers(req, res) {
     User.find({})
     .populate({
       path: 'thoughts',
@@ -19,7 +19,7 @@ const userController = {
   },
 
   // get one user by id
-  getUserById({ params}, res) {
+  getUserById({ params }, res) {
     User.findOne({ _id: params.id })
     .populate(
       {
@@ -31,8 +31,7 @@ const userController = {
     .then(dbUserData => {
       // if no user is found, send 404
       if (!dbUserData) {
-        res.status(404).json({ message: 'No user found with this id!' });
-        return;
+        return res.status(404).json({ message: 'No user found with this id!' });
       }
       res.json(dbUserData);
     })
@@ -58,8 +57,7 @@ const userController = {
     )
     .then(dbUserData => {
       if (!dbUserData) {
-        res.status(404).json({ message: 'No user found with this id!' });
-        return;
+        return res.status(404).json({ message: 'No user found with this id!' });
       }
       res.json(dbUserData);
     })
