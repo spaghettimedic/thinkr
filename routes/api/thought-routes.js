@@ -18,7 +18,7 @@ router.route('/:userId')
 .post(createThought); // new thoughts are pushed to their respective user in the api call
 
 // this route gets a single thought, updates a thought, and deletes a though by its id
-router.route('/:userId/:id')
+router.route('/:userId/:thoughtId')
   .get(getThoughtById)
   .put(updateThought)
   .delete(removeThought);

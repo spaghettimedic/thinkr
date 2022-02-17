@@ -9,7 +9,7 @@ const thoughtController = {
   },
 
   getThoughtById({ params }, res) {
-    Thought.findOne({ _id: params.id })
+    Thought.findOne({ _id: params.thoughtId })
     .select('-__v')
     .then(dbThoughtData => {
       if (!dbThoughtData) {
@@ -25,7 +25,6 @@ const thoughtController = {
 
   // add thought to user
   createThought({ params, body}, res) {
-    console.log(body);
     Thought.create(body)
     .then(({ _id }) => {
       return User.findOneAndUpdate(
@@ -46,7 +45,7 @@ const thoughtController = {
 
   updateThought({ params, body }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.id },
+      { _id: params.thoughtId },
       body,
       { new: true, runValidators: true }
     )
@@ -88,17 +87,11 @@ const thoughtController = {
 
   // remove thought
   removeThought({ params }, res) {
-    Thought.findOneAndDelete({ _id: params.id })
-    .then(deletedThought => {
-      if (!deletedThought) {
-        return res.status(404).json({ message: 'No thought found with this id!' });
-      }
-      return User.findOneAndUpdate(
-        { _id: params.userId },
-        { $pull: { thoughts: params.thoughtId } },
-        { new: true }
-      );
-    })
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $pull: { thoughts: params.thoughtId } },
+      { runValidators:true, new: true }
+    )
     .then(dbThoughtData => {
       if (!dbThoughtData) {
         res.status(404).json({ message: 'No thought found with this id!' });
